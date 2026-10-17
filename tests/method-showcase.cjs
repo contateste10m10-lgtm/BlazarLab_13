@@ -1,0 +1,37 @@
+#!/usr/bin/env node
+'use strict';
+const fs=require('node:fs');
+const path=require('node:path');
+const assert=require('node:assert/strict');
+const root=path.resolve(__dirname,'..');
+const html=fs.readFileSync(path.join(root,'index.html'),'utf8');
+const css=fs.readFileSync(path.join(root,'styles.css'),'utf8');
+const js=fs.readFileSync(path.join(root,'blazarlab.js'),'utf8');
+assert.match(html, /class="method-name">Sample Entropy <span>\(SampEn\)<\/span>/);
+assert.match(html, /class="method-name">Fisher–Shannon/);
+assert.match(html, /class="method-name">Multiscale Entropy/);
+assert.equal((html.match(/class="method-icon method-visual-trigger/g)||[]).length,3,'os três ícones precisam responder a clique/toque');
+assert.equal((html.match(/class="method-animated-hint method-visual-trigger method-visual-trigger-chart/g)||[]).length,3,'os três diagramas devem ter animação acionável');
+assert.match(html, /aria-live="polite" aria-atomic="true" id="methodAnimationStatus"/);
+assert.match(css, /\.abstract-list>\.abstract-card:last-child\{grid-column:1 \/ -1;width:calc\(50% - 7\.5px\);justify-self:center\}/);
+assert.match(css, /\.nav-toggle\{width:44px;height:44px;min-width:44px;min-height:44px;padding:0;display:none;flex-direction:column/);
+assert.match(js, /const w=1020,h=compact\?1200:720,ml=155,mr=18,mt=compact\?55:47,mb=compact\?42:35/,'heatmap móvel deve manter células maiores e legíveis em rolagem horizontal');
+assert.match(js, /function isCompactViewport\(target\)/);
+assert.match(js, /new ResizeObserver\(entries =>/);
+assert.match(js, /function initMethodVisualAnimations\(\)/);
+assert.match(js, /function initActiveNavigation\(\)/);
+assert.match(js, /compactLens \? 'Índice temporal · trechos exemplificados'/);
+assert.match(js, /const barsTop=axisY\+\(compactLens\?65:48\)/,'a lente SampEn mantém espaço após o título do eixo no celular');
+assert.match(js, /const bins = isCompactViewport\(svgId\) \? 7 : 12/,'o histograma reduz bins em telas compactas');
+assert.match(css, /\.reference-item a\{display:inline-flex;align-items:center;min-height:44px/,'links de DOI mantêm alvo mínimo de toque');
+console.log('OK: vitrine animada, heatmap móvel legível, espaçamentos e histograma adaptativo — BlazarLab 1.3.22.');
+
+assert.match(html, /id="blazar-primer"/);
+assert.match(html, /O que é um blazar\?/);
+assert.match(html, /Por que estudar a variabilidade\?/);
+assert.match(js, /function methodSimulationMarkup\(method\)/);
+assert.match(js, /SampEn = −ln\(A\/B\)/);
+assert.match(js, /Da curva à distribuição/);
+assert.match(js, /Uma série, várias escalas/);
+assert.match(js, /width: 430, height: 350/);
+console.log('OK: trilha didática, simulações específicas dos três métodos e mapa de sensibilidade móvel sem corte horizontal.');
