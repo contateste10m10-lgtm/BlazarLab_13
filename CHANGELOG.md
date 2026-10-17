@@ -1,8 +1,6 @@
 ## 1.3.22 — estabilidade de interação e zoom responsivo
 
 - Corrigido o rótulo do ponto selecionado no plano Fisher–Shannon: agora fica em uma área reservada do gráfico, com fundo opaco e linha-guia, sem cobrir a nuvem de pontos.
-- Adicionado um botão direto para voltar ao fundo normal, mantendo AGN e Nebulosa disponíveis no seletor. A ação restaura o fundo original sem alterar o tema claro/escuro nem remover a paleta secreta desbloqueada.
-
 - Melhorada a continuidade da pinça: cada ponteiro é capturado individualmente e levantar um dedo recalibra o gesto restante.
 - Preservado o estado de ampliação durante redesenhos responsivos e mudanças de tema.
 - Instruções de zoom adaptadas a dispositivos móveis; fora do modo de exploração, rolagem e pinça nativas permanecem disponíveis.
