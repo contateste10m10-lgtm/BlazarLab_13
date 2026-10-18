@@ -1,0 +1,23 @@
+#!/usr/bin/env node
+'use strict';
+const fs=require('node:fs');const path=require('node:path');const assert=require('node:assert/strict');
+const root=path.resolve(__dirname,'..');
+const html=fs.readFileSync(path.join(root,'index.html'),'utf8');
+const css=fs.readFileSync(path.join(root,'styles.css'),'utf8');
+const js=fs.readFileSync(path.join(root,'blazarlab.js'),'utf8');
+const version=fs.readFileSync(path.join(root,'VERSION'),'utf8').trim();
+assert.equal(version,'1.3.22');
+assert.match(html,/data-theme-choice="light"/);assert.match(html,/data-theme-choice="dark"/);
+assert.match(html,/id="secretBackgroundTrigger"/);assert.match(html,/id="secretSoundToggle"/);assert.match(html,/id="secretBackgroundPicker" hidden/);assert.match(html,/data-accent-choice="blue"/);assert.match(html,/data-accent-choice="rose"/);assert.match(html,/data-background-choice="agn"/);assert.match(html,/data-background-choice="nebula"/);assert.match(html,/data-background-choice="normal"/);
+assert.match(js,/realThemeSwitches<13/);assert.match(js,/30000-\(Date\.now\(\)-firstSwitchAt\)/);assert.doesNotMatch(js,/localStorage\.getItem\('blazarlab-secret-unlocked-v1322'\)/,'o desbloqueio não pode ser restaurado de visitas anteriores');assert.match(js,/root\.dataset\.accentPalette='blue'/,'o desbloqueio oferece inicialmente a paleta azul');
+assert.match(js,/function activeSecretChartColors\(\)\{return document\.documentElement\.dataset\.accentPalette==='rose'/,'a paleta Rosa cósmico funciona independentemente do fundo');assert.match(js,/const setAccentPalette=\(palette\)=>/,'o seletor de paleta deve alternar entre azul e rosa');assert.match(js,/document\.documentElement\.dataset\.accentPalette=selected/,'a escolha de paleta deve ser aplicada diretamente');assert.match(js,/Anchor the selected-point label in the quiet upper-left plot area/);
+assert.match(css,/background-image:linear-gradient\(90deg,rgba\(6,8,17/);assert.match(css,/assets\/agn-background\.svg/);assert.match(css,/assets\/nebula-background\.svg/);
+assert.match(css,/html\[data-theme=\"light\"\]:is\(\[data-background-mode=\"agn\"\],\[data-background-mode=\"nebula\"\]\) \.site-header/);
+assert.match(css,/linear-gradient\(180deg,rgba\(255,227,237/);assert.match(css,/--bg:#fff3f7/);assert.match(html,/Azul original/);assert.match(html,/Rosa cósmico/);
+const changelog=fs.readFileSync(path.join(root,'CHANGELOG.md'),'utf8');
+assert.doesNotMatch(changelog,/paleta secreta desbloqueada|após desbloqueio|fundos ilustrados de AGN e nebulosa/i,'o changelog público não deve revelar detalhes do recurso oculto');
+assert.match(css,/\.chart-frame-scrollwide svg#sampenBandHeatmapPlot\{width:1020px!important;min-width:1020px!important/);
+assert.match(css,/\.mobile-plot-svg#sampenSensitivityPlot \.plot-label\{font-size:17px!important\}/);
+assert.ok(fs.statSync(path.join(root,'assets','agn-background.svg')).size>500);
+assert.ok(fs.statSync(path.join(root,'assets','nebula-background.svg')).size>500);
+console.log('OK: seletor astronômico, paleta de gráficos isolada por modo, fundos locais e geometria móvel.');
